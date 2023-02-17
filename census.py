@@ -25,6 +25,7 @@ def create_row_resident():
     'Black, Black British, Carribean or African',
     'Other ethnic group',
      '-9',
+     '-7'
      'NAN',
      ' '
     ]
@@ -34,12 +35,13 @@ def create_row_resident():
                       'Civil partnership',
                       'Single',
                       'NAN',
+                      '###'
                       ' '
     ]
     
     output = {"ID": 'c'+str(random.randint(10**18, 2**63-1)),
-              'ENUM_FNAME': fake.first_name(),
-              'ENUM_SNAME': fake.last_name(),
+              'ENUM_FNAME': ' '.join(random.choices(['Mr ', 'Mrs ', ''], [0.2, 0.2, 0.6])) + fake.first_name(),
+              'ENUM_SNAME': ' '.join(random.choices(['Van-', 'Der-', ''], [0.05, 0.05, 0.9])) + fake.last_name(),
               'date_time_obj': fake.date_between_dates(date_start=datetime.date(1934, 1, 1),
                                                        date_end=datetime.date(2022, 12, 1)),
               'Address':fake.street_address()+', '+fake.city(),
@@ -85,10 +87,10 @@ census_df = split_DOB(census_df)
 census_df['Marital_Status'] = np.where(census_df['Resident_Age'] < 18, 'Single' , census_df['Marital_Status'])
 
 # save
-census_df.to_csv('dummy_data/census_residents.csv', index = False)
+census_df.to_csv('dlh_utils_demo/census_residents.csv', index = False)
 
 # 1% sample for ccs
 ccs = census_df[:1001]
 
 # save
-ccs.to_csv('dummy_data/ccs_residents.csv', index = False)
+ccs.to_csv('dlh_utils_demo/ccs_residents.csv', index = False)

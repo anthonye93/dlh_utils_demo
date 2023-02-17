@@ -15,7 +15,7 @@ import string
 GEN_MISS = .04
 GEN_TYPO = .03
 
-df_people = pd.read_csv('dummy_data/ccs_residents.csv')
+df_people = pd.read_csv('dlh_utils_demo/ccs_residents.csv')
 
 #############
 ### creating ccs records with new id's
@@ -145,12 +145,15 @@ def add_missing_codes_to_some(ccs_people):
       if column not in ['Resident_ID']:
 
         subset = np.random.choice([True, False], size=ccs_people.shape[0], p=[GEN_MISS, 1 - GEN_MISS])
-        ccs_people.loc[subset, column] = '-9'
+        ccs_people.loc[subset, column] = np.random.choice(['-9', '-7'])
 
     return ccs_people
 
 df_people = add_missing_codes_to_some(df_people)
 df_people = pertubation21(df_people)
+
+# change date type for ccs
+df_people['DOB'] = df_people['DOB'].str.replace('/', '-')
 
 ## replace newline characters with spaces - may leave in as standardisation procedure
 # list of all string type columns
@@ -161,4 +164,4 @@ df_people = pertubation21(df_people)
 
 df_people = df_people.drop(['Resident_Month_Of_Birth','Resident_Day_Of_Birth'], axis = 1) # perturbations done on day/mon/year birth, so will have to recreate full_dob in course
 
-df_people.to_csv('dummy_data/ccs_perturbed.csv', index = False)
+df_people.to_csv('dlh_utils_demo/ccs_perturbed.csv', index = False)
