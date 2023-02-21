@@ -35,7 +35,6 @@ def create_row_resident():
                       'Civil partnership',
                       'Single',
                       'NAN',
-                      '###'
                       ' '
     ]
     

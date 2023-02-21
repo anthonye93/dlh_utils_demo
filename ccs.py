@@ -161,6 +161,11 @@ df_people['DOB'] = df_people['DOB'].str.replace('/', '-')
 #for column in string_columns:
 #  df_people[column] = df_people[column].str.replace('\n',' ')
 
+df_people.rename(columns = {'ENUM_FNAME':'FNAME', 'ENUM_SNAME':'SNAME'}, inplace = True)
+
+# make some people really old
+df_people['DOB'] = np.where(df_people['DOB'] == '04-01-1958', '04-01-1858', df_people['DOB'])
+df_people['DOB'] = np.where(df_people['DOB'] == '31-08-1995', '31-08-1895', df_people['DOB'])
 
 df_people = df_people.drop(['Resident_Month_Of_Birth','Resident_Day_Of_Birth'], axis = 1) # perturbations done on day/mon/year birth, so will have to recreate full_dob in course
 
