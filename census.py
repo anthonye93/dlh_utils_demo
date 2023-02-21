@@ -85,6 +85,13 @@ census_df = split_DOB(census_df)
 # make sure kids aren't married D:
 census_df['Marital_Status'] = np.where(census_df['Resident_Age'] < 18, 'Single' , census_df['Marital_Status'])
 
+# make some people really old
+census_df['DOB'] = np.where(census_df['DOB'] == '25/09/1946', '25/09/1846', census_df['DOB'])
+census_df['DOB'] = np.where(census_df['DOB'] == '05/07/1979', '05/07/1879', census_df['DOB'])
+
+census_df['Resident_Age'] = np.where(census_df['DOB'] == '05/07/1879', census_df['Resident_Age'] + 100, census_df['Resident_Age'])
+census_df['Resident_Age'] = np.where(census_df['DOB'] == '25/09/1846', census_df['Resident_Age'] + 100, census_df['Resident_Age'])
+
 # save
 census_df.to_csv('dlh_utils_demo/census_residents.csv', index = False)
 
